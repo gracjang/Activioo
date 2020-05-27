@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Activioo.Infrastructure.Mongo;
+using Activioo.Infrastructure.Mongo.Interfaces;
+using Activioo.Infrastructure.Repositories;
+using Activioo.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Activioo.API 
 {
@@ -24,7 +22,11 @@ namespace Activioo.API
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) 
     {
-      services.AddControllers();
+      services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.WriteIndented = true; });
+      services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
+      services.AddSingleton<IMongoSettings>(sp =>
+        sp.GetRequiredService<IOptions<MongoSettings>>().Value);
+      services.AddScoped<IActivityRepository, ActivityRepository>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +37,7 @@ namespace Activioo.API
         app.UseDeveloperExceptionPage();
       }
 
-      app.UseHttpsRedirection();
+      //app.UseHttpsRedirection();
 
       app.UseRouting();
 
