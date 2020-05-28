@@ -5,11 +5,12 @@ using Activioo.Domain.Models;
 
 namespace Activioo.Infrastructure.Repositories.Interfaces 
 {
-  public interface IActivityRepository : IRepository 
+  public interface IActivityRepository
   {
     Task<IEnumerable<Activity>> GetAllAsync();
     Task<Activity> GetByIdAsync(Guid id);
-    Task AddAsync(Activity activity);
+    Task AddSingleAsync(Activity activity);
+    Task AddManyAsync(IEnumerable<Activity> activities);
     Task UpdateAsync(Activity activity);
     Task RemoveAsync(Activity activity);
   }

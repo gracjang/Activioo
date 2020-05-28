@@ -1,3 +1,6 @@
+using System;
+using Activioo.API.IoC;
+using Activioo.Infrastructure.Migration;
 using Activioo.Infrastructure.Mongo;
 using Activioo.Infrastructure.Mongo.Interfaces;
 using Activioo.Infrastructure.Repositories;
@@ -23,14 +26,12 @@ namespace Activioo.API
     public void ConfigureServices(IServiceCollection services) 
     {
       services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.WriteIndented = true; });
-      services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
-      services.AddSingleton<IMongoSettings>(sp =>
-        sp.GetRequiredService<IOptions<MongoSettings>>().Value);
-      services.AddScoped<IActivityRepository, ActivityRepository>();
+      services.InstallSettings(Configuration);
+      services.InstallRepositories();
+      services.AddScoped<IDataSeeder, DataSeeder>();
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env) 
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider) 
     {
       if (env.IsDevelopment()) 
       {
@@ -38,7 +39,12 @@ namespace Activioo.API
       }
 
       //app.UseHttpsRedirection();
-
+      if(bool.Parse(Configuration.GetSection("SeedData").Value))
+      {
+        var dataSeeder = provider.GetService<IDataSeeder>();
+        dataSeeder.SeedData();
+      }
+      
       app.UseRouting();
 
       app.UseAuthorization();

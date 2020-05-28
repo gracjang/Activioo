@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Activioo.Domain.Models;
@@ -22,19 +21,18 @@ namespace Activioo.Infrastructure.Repositories
 
       _activities = database.GetCollection<Activity>(ActivityCollectionName);
     }
-    public async Task AddAsync(Activity activity) 
-    {
-      await _activities.InsertOneAsync(activity);
-    }
 
     public async Task<IEnumerable<Activity>> GetAllAsync() 
       => await _activities.AsQueryable().ToListAsync();
 
+    public async Task<Activity> GetByIdAsync(Guid id) 
+      => await _activities.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
 
-    public async Task<Activity> GetByIdAsync(Guid id)
-    {
-      return await _activities.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
-    }
+    public async Task AddSingleAsync(Activity activity)
+     => await _activities.InsertOneAsync(activity);
+
+    public async Task AddManyAsync(IEnumerable<Activity> activities)
+      => await _activities.InsertManyAsync(activities);
 
     public Task RemoveAsync(Activity activity) {
       throw new NotImplementedException();

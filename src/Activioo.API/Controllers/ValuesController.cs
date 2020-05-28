@@ -35,7 +35,7 @@ namespace Activioo.API.Controllers
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] Activity activity)
     {
-      await _repo.AddAsync(activity);
+      await _repo.AddSingleAsync(activity);
 
       return Created("api/activity", new object());
     }
