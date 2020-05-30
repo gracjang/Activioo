@@ -8,7 +8,7 @@ namespace Activioo.Infrastructure.IoC.Modules
     protected override void Load(ContainerBuilder builder)
     {
       builder.RegisterType<DataSeeder>()
-        .As<DataSeeder>()
+        .As<IDataSeeder>()
         .InstancePerLifetimeScope();
     }
   }

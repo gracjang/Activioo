@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
 using Autofac;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Activioo.Infrastructure.Commands.Core
 {

@@ -18,6 +18,8 @@ namespace Activioo.Infrastructure.IoC
       builder.RegisterModule(new SettingsModule(_configuration));
       builder.RegisterModule<RepositoryModule>();
       builder.RegisterModule<CommandModule>();
+      builder.RegisterModule<QueryModule>();
+      builder.RegisterModule<ConvertersModule>();
     }
   }
 }

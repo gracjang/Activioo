@@ -4,6 +4,7 @@ using Activioo.Infrastructure.IoC;
 using Activioo.Infrastructure.Migration;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ namespace Activioo.API
 
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddAutoMapper(typeof(Startup).Assembly);
       services.AddControllers().AddJsonOptions(options =>
       {
         options.JsonSerializerOptions.WriteIndented = true;

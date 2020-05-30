@@ -1,32 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Activioo.Domain.Models;
 using Activioo.Domain.Repositories;
 using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
+using Activioo.Infrastructure.Queries.Activity.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Activioo.API.Controllers 
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class ActivityController : Controller
+  public class ActivitiesController : Controller
   {
 
     private readonly ICommandDispatcher _dispatcher;
-    private readonly IActivityRepository _activityRepository;
-    public ActivityController(ICommandDispatcher dispatcher, IActivityRepository activityRepository)
+    private readonly IActivityQuery _activityQuery;
+    public ActivitiesController(ICommandDispatcher dispatcher,
+      IActivityQuery activityQuery)
     {
       _dispatcher = dispatcher;
-      _activityRepository = activityRepository;
+      _activityQuery = activityQuery;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-      var response = await _activityRepository.GetAllAsync();
+      var response = await _activityQuery.GetActivitiesAsync();
       return Json(response);
     }
 
