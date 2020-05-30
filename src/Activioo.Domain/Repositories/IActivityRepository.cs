@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Activioo.Domain.Models;
 
-namespace Activioo.Infrastructure.Repositories.Interfaces 
+namespace Activioo.Domain.Repositories 
 {
-  public interface IActivityRepository
+  public interface IActivityRepository : IRepository
   {
     Task<IEnumerable<Activity>> GetAllAsync();
     Task<Activity> GetByIdAsync(Guid id);

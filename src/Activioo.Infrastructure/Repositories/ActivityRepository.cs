@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Activioo.Domain.Models;
+using Activioo.Domain.Repositories;
 using Activioo.Infrastructure.Mongo.Interfaces;
-using Activioo.Infrastructure.Repositories.Interfaces;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
@@ -12,13 +12,11 @@ namespace Activioo.Infrastructure.Repositories
   public class ActivityRepository : IActivityRepository 
   {
     private const string ActivityCollectionName = "Activities";
+
     private readonly IMongoCollection<Activity> _activities;
 
-    public ActivityRepository(IMongoSettings settings) 
+    public ActivityRepository(IMongoDatabase database)
     {
-      var client = new MongoClient(settings.ConnectionString);
-      var database = client.GetDatabase(settings.Database);
-
       _activities = database.GetCollection<Activity>(ActivityCollectionName);
     }
 
@@ -41,5 +39,7 @@ namespace Activioo.Infrastructure.Repositories
     public Task UpdateAsync(Activity activity) {
       throw new NotImplementedException();
     }
+
+    
   }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Activioo.Domain.Models;
-using Activioo.Infrastructure.Repositories.Interfaces;
+using Activioo.Domain.Repositories;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
