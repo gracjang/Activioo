@@ -20,6 +20,7 @@ namespace Activioo.Infrastructure.IoC
       builder.RegisterModule<CommandModule>();
       builder.RegisterModule<QueryModule>();
       builder.RegisterModule<ConvertersModule>();
+      builder.RegisterModule<DataSeederModule>();
     }
   }
 }

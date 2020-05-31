@@ -8,8 +8,8 @@ namespace Activioo.Infrastructure.IoC.Modules
   {
     protected override void Load(ContainerBuilder builder)
     {
-      builder.RegisterType<GetActivitiesResponseConverter>()
-        .As<IGetActivitiesResponseConverter>()
+      builder.RegisterType<ActivityQueryConverter>()
+        .As<IActivityQueryConverter>()
         .InstancePerLifetimeScope();
     }
   }

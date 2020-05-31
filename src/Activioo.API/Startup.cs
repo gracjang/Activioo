@@ -2,6 +2,7 @@ using System;
 using System.Text.Encodings.Web;
 using Activioo.Infrastructure.IoC;
 using Activioo.Infrastructure.Migration;
+using Activioo.Infrastructure.Mongo;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -39,9 +40,10 @@ namespace Activioo.API
       builder.RegisterModule(new ContainerModule(Configuration));
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+      MongoConfigurator.Initialize();
 
       if(env.IsDevelopment())
       {

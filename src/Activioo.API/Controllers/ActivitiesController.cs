@@ -1,5 +1,5 @@
+using System;
 using System.Threading.Tasks;
-using Activioo.Domain.Repositories;
 using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
 using Activioo.Infrastructure.Queries.Activity.Interfaces;
@@ -29,9 +29,11 @@ namespace Activioo.API.Controllers
     }
 
     [HttpGet("{id}")]
-    public ActionResult<string> Get(int id) 
+    public async Task<IActionResult> Get(Guid id)
     {
-      return "value";
+      var response = await _activityQuery.GetActivityAsync(id);
+
+      return Json(response);
     }
 
     [HttpPost]

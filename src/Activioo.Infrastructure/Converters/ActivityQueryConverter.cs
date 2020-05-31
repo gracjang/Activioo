@@ -7,11 +7,11 @@ using AutoMapper;
 
 namespace Activioo.Infrastructure.Converters
 {
-  public class GetActivitiesResponseConverter : IGetActivitiesResponseConverter
+  public class ActivityQueryConverter : IActivityQueryConverter
   {
     private readonly IMapper _mapper;
 
-    public GetActivitiesResponseConverter()
+    public ActivityQueryConverter()
     {
       var config = new MapperConfiguration(cfg =>
       {
@@ -27,6 +27,14 @@ namespace Activioo.Infrastructure.Converters
       return new GetActivitiesResponse
       {
         Activities = _mapper.Map<IEnumerable<ActivityDto>>(activities)
+      };
+    }
+
+    public GetActivityResponse Convert(Activity activity)
+    {
+      return new GetActivityResponse
+      {
+        Activity = _mapper.Map<ActivityDto>(activity)
       };
     }
   }
