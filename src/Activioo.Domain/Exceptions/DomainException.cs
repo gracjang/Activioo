@@ -1,31 +1,17 @@
 ﻿using System;
+using System.Net;
 
 namespace Activioo.Domain.Exceptions
 {
   public class DomainException : BaseException
   {
-    public DomainException(string errorMessage, object errors = null) 
-      : base(errorMessage, errors)
+    public DomainException(HttpStatusCode code, string errorMessage) 
+      : base(code, errorMessage)
     {
     }
 
-    protected DomainException(string message, params object[] args) 
-      : base(message, args)
-    {
-    }
-
-    protected DomainException(string errorMessage, object errors, string message, params object[] args) 
-      : base(errorMessage, errors, message, args)
-    {
-    }
-
-    protected DomainException(Exception innerException, string message, params object[] args) 
-      : base(innerException, message, args)
-    {
-    }
-
-    protected DomainException(Exception innerException, string errorMessage, object errors, string message, params object[] args) 
-      : base(innerException, errorMessage, errors, message, args)
+    public DomainException(HttpStatusCode code, string errorMessage, string message, params object[] args) 
+      : base(code, errorMessage, message, args)
     {
     }
   }

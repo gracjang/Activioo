@@ -6,35 +6,20 @@ namespace Activioo.Domain.Exceptions
   public class BaseException : Exception
   {
     public string ErrorMessage { get; }
-    public object Errors { get; }
+    public HttpStatusCode Code { get; }
 
 
-    public BaseException(string errorMessage, object errors = null)
+    public BaseException(HttpStatusCode code, string errorMessage)
     {
+      Code = code;
       ErrorMessage = errorMessage;
-      Errors = errors;
     }
 
-    protected BaseException(string message, params object[] args) : this(string.Empty, null, message, args)
+    protected BaseException(HttpStatusCode code, string errorMessage,string message, params object[] args)
+      : base(string.Format(message, args))
     {
-    }
-
-    protected BaseException(string errorMessage, object errors, string message, params object[] args)
-      : this(null, errorMessage, errors, message, args)
-    {
-    }
-
-    protected BaseException(Exception innerException, string message, params object[] args) 
-      : this(innerException, string.Empty, null, message,args)
-    {
-
-    }
-
-    protected BaseException(Exception innerException, string errorMessage, object errors, string message, params object[] args)
-      : base(string.Format(message, args), innerException)
-    {
+      Code = code;
       ErrorMessage = errorMessage;
-      Errors = errors;
     }
   }
 }
