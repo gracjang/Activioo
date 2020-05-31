@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Activioo.Domain.Repositories;
-using Activioo.Infrastructure.Converters.Interfaces;
+using Activioo.Infrastructure.Queries.Activity.DTO;
 using Activioo.Infrastructure.Queries.Activity.Interfaces;
-using Activioo.Infrastructure.Queries.Activity.Models;
 using AutoMapper;
 
 namespace Activioo.Infrastructure.Queries.Activity
@@ -12,23 +11,23 @@ namespace Activioo.Infrastructure.Queries.Activity
   public class ActivityQuery : IActivityQuery
   {
     private readonly IActivityRepository _activityRepository;
-    private readonly IActivityQueryConverter _activityQueryConverter;
-    public ActivityQuery(IActivityRepository activityRepository, IActivityQueryConverter activityQueryConverter)
+    private readonly IMapper _mapper;
+    public ActivityQuery(IActivityRepository activityRepository, IMapper mapper)
     {
       _activityRepository = activityRepository;
-      _activityQueryConverter = activityQueryConverter;
+      _mapper = mapper;
     }
 
-    public async Task<GetActivitiesResponse> GetActivitiesAsync()
+    public async Task<IEnumerable<ActivityDto>> GetActivitiesAsync()
     {
       var activities = await _activityRepository.GetAllAsync();
-      return _activityQueryConverter.Convert(activities);
+      return _mapper.Map<IEnumerable<ActivityDto>>(activities);
     }
 
-    public async Task<GetActivityResponse> GetActivityAsync(Guid id)
+    public async Task<ActivityDto> GetActivityAsync(Guid id)
     {
       var activity = await _activityRepository.GetByIdAsync(id);
-      return _activityQueryConverter.Convert(activity);
+      return _mapper.Map<ActivityDto>(activity);
     }
   }
 }
