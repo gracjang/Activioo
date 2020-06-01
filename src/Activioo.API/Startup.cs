@@ -1,5 +1,6 @@
 using System;
 using System.Text.Encodings.Web;
+using Activioo.API.Middleware;
 using Activioo.Infrastructure.AutoMapper;
 using Activioo.Infrastructure.IoC;
 using Activioo.Infrastructure.Migration;
@@ -57,6 +58,8 @@ namespace Activioo.API
         var dataSeeder = app.ApplicationServices.GetService<IDataSeeder>();
         dataSeeder.SeedData();
       }
+
+      app.UseMiddleware<ExceptionHandlerMiddleware>();
 
       app.UseRouting();
 
