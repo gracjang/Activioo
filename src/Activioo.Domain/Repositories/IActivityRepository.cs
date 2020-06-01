@@ -12,6 +12,6 @@ namespace Activioo.Domain.Repositories
     Task AddSingleAsync(Activity activity);
     Task AddManyAsync(IEnumerable<Activity> activities);
     Task UpdateAsync(Activity activity);
-    Task RemoveAsync(Activity activity);
+    Task RemoveAsync(Guid id);
   }
 }

@@ -32,14 +32,12 @@ namespace Activioo.Infrastructure.Repositories
     public async Task AddManyAsync(IEnumerable<Activity> activities)
       => await _activities.InsertManyAsync(activities);
 
-    public Task RemoveAsync(Activity activity) {
-      throw new NotImplementedException();
-    }
+    public async Task RemoveAsync(Guid id)
+      => await _activities.DeleteOneAsync(x => x.Id == id);
 
-    public Task UpdateAsync(Activity activity) {
-      throw new NotImplementedException();
-    }
+    public async Task UpdateAsync(Activity activity)
+      => await _activities.ReplaceOneAsync(x => x.Id == activity.Id, activity);
 
-    
+
   }
 }

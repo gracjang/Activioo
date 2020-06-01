@@ -1,5 +1,7 @@
 using System;
 using System.Text.Encodings.Web;
+using Activioo.API.Middleware;
+using Activioo.Infrastructure.AutoMapper;
 using Activioo.Infrastructure.IoC;
 using Activioo.Infrastructure.Migration;
 using Activioo.Infrastructure.Mongo;
@@ -27,7 +29,8 @@ namespace Activioo.API
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddAutoMapper(typeof(Startup).Assembly);
+
+      services.AddAutoMapper(typeof(ActivityProfile));
       services.AddControllers().AddJsonOptions(options =>
       {
         options.JsonSerializerOptions.WriteIndented = true;
@@ -55,6 +58,8 @@ namespace Activioo.API
         var dataSeeder = app.ApplicationServices.GetService<IDataSeeder>();
         dataSeeder.SeedData();
       }
+
+      app.UseMiddleware<ExceptionHandlerMiddleware>();
 
       app.UseRouting();
 

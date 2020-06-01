@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
@@ -11,9 +12,9 @@ namespace Activioo.API.Controllers
   [ApiController]
   public class ActivitiesController : Controller
   {
-
     private readonly ICommandDispatcher _dispatcher;
     private readonly IActivityQuery _activityQuery;
+
     public ActivitiesController(ICommandDispatcher dispatcher,
       IActivityQuery activityQuery)
     {
@@ -25,6 +26,7 @@ namespace Activioo.API.Controllers
     public async Task<IActionResult> Get()
     {
       var response = await _activityQuery.GetActivitiesAsync();
+
       return Json(response);
     }
 
@@ -45,9 +47,20 @@ namespace Activioo.API.Controllers
     }
 
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value) { }
+    public async Task<IActionResult> Put(Guid id, [FromBody] UpdateActivityCommand command)
+    {
+      command.Id = id;
+      await _dispatcher.DispatchAsync(command);
+
+      return Ok();
+    }
 
     [HttpDelete("{id}")]
-    public void Delete(int id) { }
+    public async Task<IActionResult> Delete(Guid id)
+    {
+      await _dispatcher.DispatchAsync(new RemoveActivityCommand { Id = id });
+
+      return Ok();
+    }
   }
 }
