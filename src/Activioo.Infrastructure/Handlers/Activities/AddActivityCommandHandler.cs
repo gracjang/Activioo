@@ -19,17 +19,7 @@ namespace Activioo.Infrastructure.Handlers.Activities
     public async Task HandleAsync(AddActivityCommand command)
     {
       command.Id = Guid.NewGuid();
-
-      var activity = new Activity()
-      {
-        Id = command.Id,
-        Category = command.Category,
-        City = command.City,
-        Date = command.Date,
-        Description = command.Description,
-        Title = command.Title,
-        Venue = command.Venue
-      };
+      var activity = Activity.Create(command.Title, command.Description, command.Category, command.Date, command.City, command.Venue);
 
       await _activityRepository.AddSingleAsync(activity);
     }

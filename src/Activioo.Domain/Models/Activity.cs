@@ -20,10 +20,16 @@ namespace Activioo.Domain.Models
     protected Activity(string title, string description, string category, DateTime date, string city, string venue)
     {
       Id = Guid.Empty;
+      SetDescription(description);
       SetTitle(title);
+      SetCategory(category);
+      SetDate(date);
+      SetCity(city);
+      SetVenue(venue);
+      CreateAt = DateTime.UtcNow;
     }
 
-    private void SetTitle(string title)
+    public void SetTitle(string title)
     {
       if(string.IsNullOrEmpty(title))
       {
@@ -38,5 +44,92 @@ namespace Activioo.Domain.Models
       Title = title;
       UpdatedAt = DateTime.UtcNow;
     }
+
+    public void SetDescription(string description)
+    {
+      if (string.IsNullOrEmpty(description))
+      {
+        throw new DomainException(HttpStatusCode.BadRequest, ErrorMessage.InvalidActivity);
+      }
+
+      if (description == Description)
+      {
+        return;
+      }
+
+      Description = description;
+      UpdatedAt = DateTime.UtcNow;
+    }
+    public void SetCategory(string category)
+    {
+      if (string.IsNullOrEmpty(category))
+      {
+        throw new DomainException(HttpStatusCode.BadRequest, ErrorMessage.InvalidActivity);
+      }
+
+      if (category == Category)
+      {
+        return;
+      }
+
+      Category = category;
+      UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetCity(string city)
+    {
+      if (string.IsNullOrEmpty(city))
+      {
+        throw new DomainException(HttpStatusCode.BadRequest, ErrorMessage.InvalidActivity);
+      }
+
+      if (city == City)
+      {
+        return;
+      }
+
+      City = city;
+      UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetVenue(string venue)
+    {
+      if (string.IsNullOrEmpty(venue))
+      {
+        throw new DomainException(HttpStatusCode.BadRequest, ErrorMessage.InvalidActivity);
+      }
+
+      if (venue == Venue)
+      {
+        return;
+      }
+
+      Venue = venue;
+      UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetDate(DateTime date)
+    {
+      if (date == null)
+      {
+        throw new DomainException(HttpStatusCode.BadRequest, ErrorMessage.InvalidActivity);
+      }
+
+      if (date == Date)
+      {
+        return;
+      }
+
+      Date = date;
+      UpdatedAt = DateTime.UtcNow;
+    }
+
+    public static Activity Create(
+      string title, 
+      string description, 
+      string category, 
+      DateTime date, 
+      string city,
+      string venue) => new Activity(title, description, category, date, city, venue);
   }
 }
