@@ -12,9 +12,9 @@ namespace Activioo.API.Controllers
   [ApiController]
   public class ActivitiesController : Controller
   {
-
     private readonly ICommandDispatcher _dispatcher;
     private readonly IActivityQuery _activityQuery;
+
     public ActivitiesController(ICommandDispatcher dispatcher,
       IActivityQuery activityQuery)
     {
@@ -26,6 +26,7 @@ namespace Activioo.API.Controllers
     public async Task<IActionResult> Get()
     {
       var response = await _activityQuery.GetActivitiesAsync();
+
       return Json(response);
     }
 
@@ -51,10 +52,15 @@ namespace Activioo.API.Controllers
       command.Id = id;
       await _dispatcher.DispatchAsync(command);
 
-      return Json(HttpStatusCode.OK);
+      return Ok();
     }
 
     [HttpDelete("{id}")]
-    public void Delete(int id) { }
+    public async Task<IActionResult> Delete(Guid id)
+    {
+      await _dispatcher.DispatchAsync(new RemoveActivityCommand { Id = id });
+
+      return Ok();
+    }
   }
 }

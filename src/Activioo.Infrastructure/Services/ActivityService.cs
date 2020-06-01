@@ -36,31 +36,6 @@ namespace Activioo.Infrastructure.Services
       await _activityRepository.AddSingleAsync(activity);
     }
 
-    public async Task UpdateAsync(Guid activityId, string title, string description, string category, DateTime date, string city, string venue)
-    {
-      var activity = await _activityRepository.GetByIdAsync(activityId);
-
-      if (activity == null)
-      {
-        throw new InfrastructureException(HttpStatusCode.BadRequest, ErrorMessage.ActivityNotFound);
-      }
-      
-      activity.UpdateActivity(title, description, category, date, city, venue);
-      await _activityRepository.UpdateAsync(activity);
-    }
-
-    public async Task RemoveAsync(Guid activityId)
-    {
-      var activity = await _activityRepository.GetByIdAsync(activityId);
-
-      if (activity == null)
-      {
-        throw new InfrastructureException(HttpStatusCode.BadRequest, ErrorMessage.ActivityNotFound);
-      }
-      
-      await _activityRepository.RemoveAsync(activityId);
-    }
-
     public async Task<ActivityDto> GetAsync(Guid activityId)
     {
       var activity = await _activityRepository.GetByIdAsync(activityId);
@@ -83,6 +58,31 @@ namespace Activioo.Infrastructure.Services
       }
 
       return _mapper.Map<IEnumerable<ActivityDto>>(activities);
+    }
+
+    public async Task UpdateAsync(Guid activityId, string title, string description, string category, DateTime date, string city, string venue)
+    {
+      var activity = await _activityRepository.GetByIdAsync(activityId);
+
+      if (activity == null)
+      {
+        throw new InfrastructureException(HttpStatusCode.BadRequest, ErrorMessage.ActivityNotFound);
+      }
+
+      activity.UpdateActivity(title, description, category, date, city, venue);
+      await _activityRepository.UpdateAsync(activity);
+    }
+
+    public async Task RemoveAsync(Guid activityId)
+    {
+      var activity = await _activityRepository.GetByIdAsync(activityId);
+
+      if (activity == null)
+      {
+        throw new InfrastructureException(HttpStatusCode.BadRequest, ErrorMessage.ActivityNotFound);
+      }
+
+      await _activityRepository.RemoveAsync(activityId);
     }
   }
 }

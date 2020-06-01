@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Activioo.Domain.Repositories;
 using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
 using Activioo.Infrastructure.Services.Interfaces;
