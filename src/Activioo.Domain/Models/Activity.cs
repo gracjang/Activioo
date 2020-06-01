@@ -17,9 +17,9 @@ namespace Activioo.Domain.Models
     public DateTime UpdatedAt { get; protected set; }
     public DateTime CreateAt { get; protected set; }
 
-    protected Activity(string title, string description, string category, DateTime date, string city, string venue)
+    protected Activity(Guid id, string title, string description, string category, DateTime date, string city, string venue)
     {
-      Id = Guid.Empty;
+      SetId(id);
       SetDescription(description);
       SetTitle(title);
       SetCategory(category);
@@ -29,6 +29,27 @@ namespace Activioo.Domain.Models
       CreateAt = DateTime.UtcNow;
     }
 
+    public void UpdateActivity(string title, string description, string category, DateTime date, string city, string venue)
+    {
+      SetDescription(description);
+      SetTitle(title);
+      SetCategory(category);
+      SetDate(date);
+      SetCity(city);
+      SetVenue(venue);
+      UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetId(Guid id)
+    {
+      if (id == Guid.Empty)
+      {
+        throw new DomainException(HttpStatusCode.BadRequest, ErrorMessage.InvalidActivity);
+      }
+
+      Id = id;
+      UpdatedAt = DateTime.UtcNow;
+    }
     public void SetTitle(string title)
     {
       if(string.IsNullOrEmpty(title))
@@ -125,11 +146,12 @@ namespace Activioo.Domain.Models
     }
 
     public static Activity Create(
+      Guid id,
       string title, 
       string description, 
       string category, 
       DateTime date, 
       string city,
-      string venue) => new Activity(title, description, category, date, city, venue);
+      string venue) => new Activity(id, title, description, category, date, city, venue);
   }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
@@ -45,7 +46,13 @@ namespace Activioo.API.Controllers
     }
 
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value) { }
+    public async Task<IActionResult> Put(Guid id, [FromBody] UpdateActivityCommand command)
+    {
+      command.Id = id;
+      await _dispatcher.DispatchAsync(command);
+
+      return Json(HttpStatusCode.OK);
+    }
 
     [HttpDelete("{id}")]
     public void Delete(int id) { }

@@ -16,6 +16,7 @@ namespace Activioo.Infrastructure.IoC
     protected override void Load(ContainerBuilder builder)
     {
       builder.RegisterModule(new SettingsModule(_configuration));
+      builder.RegisterModule<ServiceModule>();
       builder.RegisterModule<RepositoryModule>();
       builder.RegisterModule<CommandModule>();
       builder.RegisterModule<QueryModule>();

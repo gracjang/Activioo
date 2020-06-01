@@ -1,4 +1,5 @@
 ﻿using Activioo.Domain.Models;
+using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Queries.Activity.DTO;
 using AutoMapper;
 
