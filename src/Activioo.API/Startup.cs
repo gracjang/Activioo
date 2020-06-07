@@ -36,6 +36,13 @@ namespace Activioo.API
         options.JsonSerializerOptions.WriteIndented = true;
         options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All);
       });
+      services.AddCors( opt => 
+      {
+        opt.AddPolicy("CorsPolicy", policy =>
+        {
+          policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+        });
+      });
     }
 
     public void ConfigureContainer(ContainerBuilder builder)
@@ -64,7 +71,7 @@ namespace Activioo.API
       app.UseRouting();
 
       app.UseAuthorization();
-
+      app.UseCors("CorsPolicy");
       app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
   }
