@@ -1,14 +1,16 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import "./styles.css";
 import { Container } from "semantic-ui-react";
 import { IActivity } from "../models/activity";
 import { NavBar } from "../../features/nav/NavBar";
 import { ActivityDashboard } from "../../features/dashboard/ActivityDashboard";
+import agent from "../api/agent";
 
 const App = () => {
   const [activities, setActivities] = useState<IActivity[]>([]);
-  const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null);
+  const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(
+    null
+  );
   const [editMode, setEditMode] = useState(false);
 
   const handleSelectActivity = (id: string) => {
@@ -19,43 +21,50 @@ const App = () => {
   const handleOpenCreateForm = () => {
     setSelectedActivity(null);
     setEditMode(true);
-  }
+  };
 
   const handleCreateActivity = (activity: IActivity) => {
-    setActivities([...activities, activity])
-    setSelectedActivity(activity);
-    setEditMode(false);
-  }
+    agent.Activities.create(activity).then(() => {
+      setActivities([...activities, activity]);
+      setSelectedActivity(activity);
+      setEditMode(false);
+    })
+  };
 
   const handleEditActivity = (activity: IActivity) => {
-    setActivities([...activities.filter(x => x.id !== activity.id), activity])
-    setSelectedActivity(activity);
-    setEditMode(false);
-  }
+    agent.Activities.update(activity).then(() => {
+      setActivities([
+        ...activities.filter((x) => x.id !== activity.id),
+        activity,
+      ]);
+      setSelectedActivity(activity);
+      setEditMode(false);
+    })
+  };
 
   const handleDeleteActivity = (id: string) => {
-    setActivities([...activities.filter(x => x.id !== id)])
-  }
+    agent.Activities.delete(id).then(() => {
+      setActivities([...activities.filter((x) => x.id !== id)]);
+    })
+  };
 
   useEffect(() => {
-    axios
-      .get<IActivity[]>("http://localhost:5000/api/activities")
-      .then((response) => {
-        let activities: IActivity[] = [];
-        response.data.forEach(activity => {
-          activity.date = activity.date.split('Z')[0]
-          activities.push(activity);
-        })
-        setActivities(activities);
+    agent.Activities.list().then((response) => {
+      let activities: IActivity[] = [];
+      response.forEach((activity) => {
+        activity.date = activity.date.split("Z")[0];
+        activities.push(activity);
       });
+      setActivities(activities);
+    });
   }, []);
 
   return (
     <Fragment>
-      <NavBar openCreateForm={handleOpenCreateForm}/>
+      <NavBar openCreateForm={handleOpenCreateForm} />
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard
-          key={selectedActivity && selectedActivity.id || 0}
+          key={(selectedActivity && selectedActivity.id) || 0}
           activities={activities}
           selectActivity={handleSelectActivity}
           selectedActivity={selectedActivity}
