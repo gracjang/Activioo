@@ -13,6 +13,7 @@ const App = () => {
 
   const handleSelectActivity = (id: string) => {
     setSelectedActivity(activities.filter((x) => x.id === id)[0]);
+    setEditMode(false);
   };
 
   const handleOpenCreateForm = () => {
@@ -36,7 +37,12 @@ const App = () => {
     axios
       .get<IActivity[]>("http://localhost:5000/api/activities")
       .then((response) => {
-        setActivities(response.data);
+        let activities: IActivity[] = [];
+        response.data.forEach(activity => {
+          activity.date = activity.date.split('Z')[0]
+          activities.push(activity);
+        })
+        setActivities(activities);
       });
   }, []);
 
@@ -45,6 +51,7 @@ const App = () => {
       <NavBar openCreateForm={handleOpenCreateForm}/>
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard
+          key={selectedActivity && selectedActivity.id || 0}
           activities={activities}
           selectActivity={handleSelectActivity}
           selectedActivity={selectedActivity}

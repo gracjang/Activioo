@@ -83,7 +83,7 @@ export const ActivityForm: React.FC<IProps> = ({
           name="date"
           icon="calendar alternate"
           iconPosition="left"
-          type="date"
+          type="datetime-local"
           placeholder="Date"
           value={activity.date}
         />
