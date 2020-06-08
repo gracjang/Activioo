@@ -42,7 +42,6 @@ export const ActivityForm: React.FC<IProps> = ({
   };
 
   const handleSubmit = () => {
-    console.log(activity)
     if(activity.id.length === 0) {
       let newActivity = {
         ...activity,
