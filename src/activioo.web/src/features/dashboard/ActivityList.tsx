@@ -6,12 +6,14 @@ interface IProps {
   activities: IActivity[];
   selectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 
 export const ActivityList: React.FC<IProps> = ({
   activities,
   selectActivity,
-  deleteActivity
+  deleteActivity,
+  submitting
 }) => {
   return (
     <Segment clearing>
@@ -41,6 +43,7 @@ export const ActivityList: React.FC<IProps> = ({
                   content="Delete"
                   color="red"
                   inverted
+                  loading={submitting}
                 />
                 <Label basic content={activity.category} />
               </Item.Extra>
