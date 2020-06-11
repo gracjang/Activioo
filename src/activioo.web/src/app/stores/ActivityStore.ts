@@ -5,17 +5,28 @@ import agent from '../api/agent';
 
 class ActivityStore {
   @observable activities: IActivity[] = [];
+  @observable selectedActivity: IActivity | undefined;
   @observable loadingInitial = false;
+  @observable editMode = false;
 
-  @action loadActivities = () => {
+  @action loadActivities = async () => {
     this.loadingInitial = true;
-    agent.Activities.list()
-    .then(activities => {
+    try {
+      const activities = await agent.Activities.list();
       activities.forEach((activity) => {
         activity.date = activity.date.split("Z")[0];
         this.activities.push(activity);
       });
-    }).finally(() => this.loadingInitial =false);
+      this.loadingInitial = false;
+    } catch (error) {
+      console.log(error);
+      this.loadingInitial = false;
+    }
+  }
+
+  @action selectActivity = (id: string) => {
+    this.selectedActivity = this.activities.find(x => x.id === id);
+    this.editMode = false;
   }
 }
 

@@ -3,7 +3,7 @@ import "./styles.css";
 import { Container } from "semantic-ui-react";
 import { IActivity } from "../models/activity";
 import { NavBar } from "../../features/nav/NavBar";
-import { ActivityDashboard } from "../../features/dashboard/ActivityDashboard";
+import ActivityDashboard from "../../features/dashboard/ActivityDashboard";
 import agent from "../api/agent";
 import { LoadingComponent } from './LoadingComponent';
 import ActivityStore from '../stores/ActivityStore';
@@ -73,8 +73,6 @@ const App = () => {
           key={(selectedActivity && selectedActivity.id) || 0}
           activities={activityStore.activities}
           selectActivity={handleSelectActivity}
-          selectedActivity={selectedActivity}
-          editMode={editMode}
           setEditMode={setEditMode}
           setSelectedActivity={setSelectedActivity}
           createActivity={handleCreateActivity}

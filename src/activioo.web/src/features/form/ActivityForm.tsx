@@ -11,7 +11,7 @@ interface IProps {
   submitting: boolean;
 }
 
-export const ActivityForm: React.FC<IProps> = ({
+const ActivityForm: React.FC<IProps> = ({
   setEditMode,
   activity: initialFormState,
   createActivity,
@@ -126,3 +126,5 @@ export const ActivityForm: React.FC<IProps> = ({
     </Segment>
   );
 };
+
+export default ActivityForm
