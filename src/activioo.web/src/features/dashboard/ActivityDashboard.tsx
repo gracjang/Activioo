@@ -7,29 +7,14 @@ import ActivityForm from "./../form/ActivityForm"
 import { observer } from "mobx-react-lite";
 import ActivityStore from "../../app/stores/ActivityStore";
 
-interface IProps {
-  activities: IActivity[];
-  deleteActivity: (e: SyntheticEvent<HTMLButtonElement> , id: string) => void;
-  submitting: boolean;
-  target: string;
-}
 
-
-const ActivityDashboard: React.FC<IProps> = ({
-  deleteActivity,
-  submitting,
-  target
-}) => {
+const ActivityDashboard: React.FC = () => {
   const activityStore = useContext(ActivityStore);
   const {editMode, selectedActivity} = activityStore
   return (
     <Grid>
       <GridColumn width={10}>
-        <ActivityList
-          deleteActivity={deleteActivity}
-          submitting={submitting}
-          target={target}
-        />
+        <ActivityList/>
       </GridColumn>
       <Grid.Column width={6}>
         {selectedActivity && !editMode && (
