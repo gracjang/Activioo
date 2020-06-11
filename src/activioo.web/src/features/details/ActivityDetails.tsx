@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Card, Button } from "semantic-ui-react";
 import { Image } from "semantic-ui-react";
-import { IActivity } from "./../../app/models/activity";
 import ActivityStore from "../../app/stores/ActivityStore";
 import { observer } from "mobx-react-lite";
 
@@ -12,7 +11,7 @@ const ActivityDetails: React.FC = () => {
     openEditForm,
     cancelSelectedActivity,
   } = activityStore;
-  
+
   return (
     <Card fluid>
       <Image

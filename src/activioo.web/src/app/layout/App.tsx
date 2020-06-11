@@ -1,10 +1,8 @@
-import React, { useState, useEffect, Fragment, SyntheticEvent, useContext } from "react";
+import React, { useEffect, Fragment, useContext } from "react";
 import "./styles.css";
 import { Container } from "semantic-ui-react";
-import { IActivity } from "../models/activity";
 import NavBar from "../../features/nav/NavBar";
 import ActivityDashboard from "../../features/dashboard/ActivityDashboard";
-import agent from "../api/agent";
 import { LoadingComponent } from './LoadingComponent';
 import ActivityStore from '../stores/ActivityStore';
 import {observer} from 'mobx-react-lite';
