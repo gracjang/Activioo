@@ -8,7 +8,7 @@ configure({ enforceActions: 'always' })
 class ActivityStore {
   @observable activityRegistry = new Map();
   @observable activities: IActivity[] = [];
-  @observable activity: IActivity | undefined;
+  @observable activity: IActivity | null = null;
   @observable target = "";
   @observable loadingInitial = false;
   @observable editMode = false;
@@ -18,6 +18,10 @@ class ActivityStore {
     return Array.from(this.activityRegistry.values()).sort(
       (x, y) => Date.parse(x.date) - Date.parse(y.date)
     );
+  }
+
+  @action clearActivity = () => {
+    this.activity = null;
   }
 
   @action loadActivities = async () => {
@@ -127,7 +131,7 @@ class ActivityStore {
   };
 
   @action cancelSelectedActivity = () => {
-    this.activity = undefined;
+    this.activity = null;
   };
 
   @action cancelFormOpen = () => {
@@ -136,7 +140,7 @@ class ActivityStore {
 
   @action openCreateForm = () => {
     this.editMode = false;
-    this.activity = undefined;
+    this.activity = null;
   };
 
   @action selectActivity = (id: string) => {
