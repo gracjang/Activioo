@@ -13,9 +13,7 @@ interface DetailParams {
 const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({match, history}) => {
   const activityStore = useContext(ActivityStore);
   const {
-    activity: activity,
-    openEditForm,
-    cancelSelectedActivity,
+    activity,
     loadActivity,
     loadingInitial
   } = activityStore;
