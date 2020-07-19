@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.Commands.Core.Interfaces;
@@ -15,7 +14,8 @@ namespace Activioo.API.Controllers
     private readonly ICommandDispatcher _dispatcher;
     private readonly IActivityQuery _activityQuery;
 
-    public ActivitiesController(ICommandDispatcher dispatcher,
+    public ActivitiesController(
+      ICommandDispatcher dispatcher,
       IActivityQuery activityQuery)
     {
       _dispatcher = dispatcher;

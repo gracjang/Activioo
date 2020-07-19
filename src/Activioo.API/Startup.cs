@@ -2,12 +2,14 @@ using System;
 using System.Text.Encodings.Web;
 using Activioo.API.Middleware;
 using Activioo.Infrastructure.AutoMapper;
+using Activioo.Infrastructure.Commands.Activities;
 using Activioo.Infrastructure.IoC;
 using Activioo.Infrastructure.Migration;
 using Activioo.Infrastructure.Mongo;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +33,8 @@ namespace Activioo.API
     {
 
       services.AddAutoMapper(typeof(ActivityProfile));
-      services.AddControllers().AddJsonOptions(options =>
+      services.AddControllers().AddFluentValidation()
+        .AddJsonOptions(options =>
       {
         options.JsonSerializerOptions.WriteIndented = true;
         options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All);
